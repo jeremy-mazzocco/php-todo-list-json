@@ -17,7 +17,7 @@ export default {
     axios.get('http://localhost/Booleans-php/php-todo-list-json/php/index.php')
       .then(response => {
         this.todoitems = response.data;
-        console.log(response.data);
+        console.log(typeof this.todoitems);
       });
   }
 };
