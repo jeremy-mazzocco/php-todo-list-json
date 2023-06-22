@@ -5,7 +5,8 @@ header("Access-Control-Allow-Headers: X-Requested-With");
 header('Content-Type: application/json');
 
 $dataStr = file_get_contents('data.json');
+$decData = json_decode($dataStr, true);
+// $encData = json_encode($dataStr);
+echo $decData;
 
-echo $dataStr;
-
-var_dump($dataStr);
+var_dump($decData);
