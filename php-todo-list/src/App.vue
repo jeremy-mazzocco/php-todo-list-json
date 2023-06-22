@@ -6,24 +6,36 @@ export default {
 
     return {
       todoitems: [],
-
-      // newStudent: {
-      //   name: "",
-      //   last_name: ""
-      // }
+      newtask: {
+        name: ""
+      }
     };
+  },
+  methods: {
+    addTask() {
+
+      const url = 'http://localhost/Booleans-php/php-todo-list-json/php/addtask.php';
+      const data = this.newtask;
+      const headers = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      };
+
+      axios.post(url, data, headers)
+        .then(response => {
+          this.todoitems = response.data;
+          this.newtask.name = "";
+
+        })
+        .catch(error => console.error("error", error));
+    },
   },
   mounted() {
     axios.get('http://localhost/Booleans-php/php-todo-list-json/php/index.php')
       .then(response => {
         this.todoitems = response.data;
-        console.log(typeof this.todoitems);
       });
   }
 };
-
-
-
 </script>
 
 <template>
@@ -37,8 +49,17 @@ export default {
 
       </li>
     </ul>
+    <form @submit.prevent="addTask">
+      <label for="newtask">New Task</label>
+      <input type="text" placeholder="add new task" v-model="newtask.name">
+    </form>
   </div>
 </template>
+
+
+
+
+
 
 <style scoped>
 h1 {
