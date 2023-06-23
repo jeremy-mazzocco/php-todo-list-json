@@ -6,6 +6,9 @@ export default {
 
     return {
       todoitems: [],
+      uncrosstask: {
+        crossed: 'true',
+      },
       newtask: {
         name: "",
         crossed: 'false'
@@ -24,7 +27,6 @@ export default {
         .then(response => {
           this.todoitems = response.data;
           this.newtask.name = "";
-          console.log(this.todoitems);
         })
         .catch(error => console.error("error", error));
     },
@@ -43,9 +45,9 @@ export default {
         .catch(error => console.error("error", error));
     },
 
-    crossTask(index) {
+    crossTask() {
       const url = 'http://localhost/Booleans-php/php-todo-list-json/php/crosstask.php';
-      const data = { this.todoitems.crossed: 'false'};
+      const data = this.uncrosstask;
       const headers = {
         headers: { 'Content-Type': 'multipart/form-data' }
       };
@@ -75,7 +77,7 @@ export default {
       <li v-for="(item, index) in todoitems" :key="index">
         {{ item.name }}
         <button @click="deleteTask(index)"> X </button>
-        <button @click="crossTask">Cross</button>
+        <button @click="crossTask(index)">Cross Task</button>
       </li>
     </ul>
     <form @submit.prevent="addTask">

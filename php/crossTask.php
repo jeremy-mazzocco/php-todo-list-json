@@ -7,11 +7,9 @@ header('Content-Type: application/json');
 $datastr = file_get_contents("data.json");
 $data = json_decode($datastr);
 
-// $crossed = $_POST[];
-$data[$crossed] = 'true';
+$cross = $_POST;
+$data[] = $cross;
 
 $datastr = json_encode($data);
 file_put_contents('data.json', $datastr);
 echo $datastr;
-
-var_dump($datastr);
