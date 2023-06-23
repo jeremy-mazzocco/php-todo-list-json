@@ -13,7 +13,6 @@ export default {
   },
   methods: {
     addTask() {
-
       const url = 'http://localhost/Booleans-php/php-todo-list-json/php/addtask.php';
       const data = this.newtask;
       const headers = {
@@ -27,6 +26,21 @@ export default {
 
         })
         .catch(error => console.error("error", error));
+    },
+
+    deleteTask(index) {
+      const url = 'http://localhost/Booleans-php/php-todo-list-json/php/deletetask.php';
+      const data = { "index": index };
+      const headers = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      };
+
+      axios.post(url, data, headers)
+        .then(response => {
+          this.todoitems = response.data;
+        })
+        .catch(error => console.error("error", error));
+
     },
   },
   mounted() {
@@ -46,7 +60,7 @@ export default {
     <ul>
       <li v-for="(item, index) in todoitems" :key="index">
         {{ item.name }}
-
+        <button @click="deleteTask(index)"> X </button>
       </li>
     </ul>
     <form @submit.prevent="addTask">
@@ -55,9 +69,6 @@ export default {
     </form>
   </div>
 </template>
-
-
-
 
 
 
@@ -71,5 +82,11 @@ h1 {
   height: 500px;
   margin: auto;
   background-color: blueviolet;
+}
+
+button {
+  background-color: transparent;
+  color: red;
+  border: none;
 }
 </style>
