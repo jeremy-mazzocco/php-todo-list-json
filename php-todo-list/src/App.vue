@@ -6,9 +6,6 @@ export default {
 
     return {
       todoitems: [],
-      uncrosstask: {
-        crossed: 'true',
-      },
       newtask: {
         name: "",
         crossed: 'false'
@@ -45,9 +42,9 @@ export default {
         .catch(error => console.error("error", error));
     },
 
-    crossTask() {
+    crossTask(index) {
       const url = 'http://localhost/Booleans-php/php-todo-list-json/php/crosstask.php';
-      const data = this.uncrosstask;
+      const data = { "index": index };
       const headers = {
         headers: { 'Content-Type': 'multipart/form-data' }
       };
@@ -55,6 +52,7 @@ export default {
       axios.post(url, data, headers)
         .then(response => {
           this.todoitems = response.data;
+          console.log(this.todoitems);
         })
         .catch(error => console.error("error", error));
     },
@@ -75,9 +73,10 @@ export default {
   <div class="container">
     <ul>
       <li v-for="(item, index) in todoitems" :key="index">
-        {{ item.name }}
+        <span @click="crossTask(index)" :class="todoitems.crossed ? 'crossed' : 'not-crossed'">
+          {{ item.name }}
+        </span>
         <button @click="deleteTask(index)"> X </button>
-        <button @click="crossTask(index)">Cross Task</button>
       </li>
     </ul>
     <form @submit.prevent="addTask">
@@ -112,11 +111,11 @@ button:nth-child(2) {
   font-weight: bold;
 }
 
-.classCrossed {
+.crossed {
   text-decoration: line-through;
 }
 
-.classNotCrossed {
+.not-crossed {
   text-decoration: none;
 }
 </style>
